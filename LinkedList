@@ -1,0 +1,101 @@
+# Definition for singly-linked list.
+# class ListNode:
+#    def __init__(self, x):
+#        self.val = x
+#        self.next = None
+
+class LinkedList:
+  def __init__(self):
+    self.head = None
+    self.tail = None
+    self.getcount = 0
+
+  def insert_at_begining(self,val):
+    newnode = ListNode(val)
+    if self.getcount == 0:
+      self.head = newnode
+      self.tail = newnode
+      self.getcount+=1
+    else:
+      series = self.head
+      self.head = newnode
+      newnode.next = series
+      self.getcount+=1
+  
+  def insert_at_end(self,val):
+    newnode = ListNode(val)
+    if self.getcount == 0:
+      self.head = newnode
+      self.tail = newnode
+      self.getcount+=1
+    else:
+      self.tail.next = newnode
+      self.tail = newnode
+      self.getcount+=1
+  
+  def insertnode(self,val,pos):
+    if pos == 0:
+      self.insert_at_begining(val)
+    elif pos == self.getcount:
+      self.insert_at_end(val)
+    elif (pos < 0) | (pos > self.getcount):
+      pass
+    else:
+      count = 0
+      temp = self.head
+      while(count < pos-1):
+        count+=1
+        temp = temp.next
+      newnode = ListNode(val)
+      Series = temp.next
+      temp.next = newnode
+      newnode.next = Series
+      self.getcount+=1
+    
+  def deletenode(self,pos):
+    if (pos<0) | (pos>= self.getcount):
+      pass
+    elif pos == 0:
+      if self.getcount == 1:
+        self.head = None
+        self.tail = None
+        self.getcount-=1
+      elif self.getcount == 0:
+        pass
+      else:
+        self.head = self.head.next
+        self.getcount-=1
+    else:
+      if pos == self.getcount-1:
+        count = 0
+        temp = self.head
+        while(count < pos - 1):
+          count+=1
+          temp = temp.next
+        self.tail = temp
+        temp.next = temp.next.next
+        self.getcount-=1
+      else:
+        count = 0
+        temp = self.head
+        while(count < pos -1):
+          count+=1
+          temp = temp.next
+        temp.next = temp.next.next
+        self.getcount-=1
+
+class Solution:
+  # @param A : list of list of integers
+  # @return the head node in the linked list
+  def solve(self, A):
+    ll = LinkedList()
+    for i in range(len(A)):
+      if (A[i][0]) == 0:
+        ll.insert_at_begining(A[i][1])
+      elif (A[i][0]) == 1:
+        ll.insert_at_end(A[i][1])
+      elif (A[i][0]) == 2:
+        ll.insertnode(A[i][1],A[i][2])
+      elif (A[i][0]) == 3:
+        ll.deletenode(A[i][1])
+    return(ll.head)
